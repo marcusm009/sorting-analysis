@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 // Marcus Mills
 // COP3530 - Project 2
@@ -20,14 +21,14 @@ public class TreeSort
     Node right;
 
     //Constructor
-    public Node(int num)
+    private Node(int num)
     {
       this.num = num;
       this.left = null;
       this.right = null;
     }
 
-    public void addNode(int num)
+    private void addNode(int num)
     {
       //Adds the data to the left subtree when it is less than the current node
       if(num < this.num)
@@ -57,20 +58,6 @@ public class TreeSort
     }
   }
 
-  public static void add(int num)
-  {
-    //If the root is null, it creates a new root
-    if(root == null)
-    {
-      root = new Node(num);
-    }
-    //Otherwise, call the addNode function
-    else
-    {
-      root.addNode(num);
-    }
-  }
-
   public static void treeSort(int[] arr)
   {
     //Adds each element in the array to the binary tree
@@ -85,7 +72,29 @@ public class TreeSort
     //Adds each item back into array
     for(int i = 0; i < arr.length; i++)
     {
-      arr[i] = sorted.get(i);
+      //arr[i] = sorted.get(i);
+    }
+    //clear();
+  }
+
+  //Clears the TreeSort object for subsequent use
+  private static void clear()
+  {
+    root = null;
+    sorted = new ArrayList<Integer>();
+  }
+
+  private static void add(int num)
+  {
+    //If the root is null, it creates a new root
+    if(root == null)
+    {
+      root = new Node(num);
+    }
+    //Otherwise, call the addNode function
+    else
+    {
+      root.addNode(num);
     }
   }
 
