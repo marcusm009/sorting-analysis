@@ -1,46 +1,79 @@
 import java.io.*;
 import java.util.Scanner;
 
+// Marcus Mills
+// COP3530 - Project 2
+
+/* This class is used to determine the time complexity of two different
+sorting methods, namely QuickSort and TreeSort */
+
 class SortingAnalysis
 {
-
   public static void main(String[] args)
   {
-    int size = 10;
-    ListGenerator.generate(size);
-    int[] arr1 = fileToArray(size);
-    int[] arr2 = fileToArray(size);
+    //Initializes size
+    int size = 50000;
 
-    print(arr1);
-    System.out.println("\n");
-    print(arr2);
-    System.out.println("\n");
+    //Creates randomly ordered arrays
+    int[] arr1 = fileToArray(size, "");
+    int[] arr2 = fileToArray(size, "");
 
-    long start1 = System.currentTimeMillis();
-    TreeSort.treeSort(arr1);
-    long end1 = System.currentTimeMillis();
+    //Creates ascending ordered arrays
+    int[] arr1_asc = fileToArray(size, "_asc");
+    int[] arr2_asc = fileToArray(size, "_asc");
 
-    long start2 = System.currentTimeMillis();
-    QuickSort.quickSort(arr2, 0, arr2.length - 1);
-    long end2 = System.currentTimeMillis();
+    //Creates descending ordered arrays
+    int[] arr1_dsc = fileToArray(size, "_dsc");
+    int[] arr2_dsc = fileToArray(size, "_dsc");
 
-    long elapsed1 = end1 - start1;
-    long elapsed2 = end2 - start2;
+    //Sorts and measures the sorting methods on randomly ordered arrays
+    System.out.println("Random:");
+    test(arr1, true);
+    test(arr2, false);
+    System.out.println();
 
-    print(arr1);
-    System.out.println("\n");
-    print(arr2);
-    System.out.println("\n");
+    //Sorts and measures the sorting methods on ascending ordered arrays
+    System.out.println("Ascending:");
+    test(arr1_asc, true);
+    test(arr2_asc, false);
+    System.out.println();
 
-    System.out.println("BTS: " + elapsed1 + "ms");
-    System.out.println("QS: " + elapsed2 + "ms");
-
+    //Sorts and measures the sorting methods on descending ordered arrays
+    System.out.println("Descending:");
+    test(arr1_dsc, true);
+    test(arr2_dsc, false);
+    System.out.println();
 
   }
 
-  public static int[] fileToArray(int size)
+  public static void test(int[] arr, boolean tree)
   {
-    File file = new File(size + ".txt");
+    //Declares variables
+    long start, end, elapsed;
+    //If tree, use treeSort
+    if(tree)
+    {
+      start = System.currentTimeMillis();
+      TreeSort.treeSort(arr);
+      end = System.currentTimeMillis();
+      elapsed = end-start;
+      System.out.println("BTS: " + elapsed + "ms");
+    }
+    //Otherwise, use quicksort
+    else
+    {
+      start = System.currentTimeMillis();
+      QuickSort.quickSort(arr);
+      end = System.currentTimeMillis();
+      elapsed = end-start;
+      System.out.println("QS: " + elapsed + "ms");
+    }
+  }
+
+  //Converts the files to an array for ease of use
+  public static int[] fileToArray(int size, String postfix)
+  {
+    File file = new File(size + postfix + ".txt");
     int[] arr = new int[size];
 
     try
@@ -61,11 +94,14 @@ class SortingAnalysis
     return arr;
   }
 
+  //Method to print an array for debugging purposes
   public static void print(int[] arr)
   {
     for(int i = 0; i < arr.length; i++)
     {
       System.out.println(arr[i]);
     }
+    System.out.println();
   }
+
 }

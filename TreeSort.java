@@ -1,16 +1,25 @@
 import java.util.*;
 
+// Marcus Mills
+// COP3530 - Project 2
+
+/* This sorting method sorts integers by creating a binary tree and performing
+an in order traversal to sort the items. */
+
 public class TreeSort
 {
+  //Declaring the root, and initializing an undeterminate length ArrayList
   private static Node root;
   private static ArrayList<Integer> sorted = new ArrayList<Integer>();
 
+  //The nested Node class
   private static class Node
   {
     int num;
     Node left;
     Node right;
 
+    //Constructor
     public Node(int num)
     {
       this.num = num;
@@ -20,6 +29,7 @@ public class TreeSort
 
     public void addNode(int num)
     {
+      //Adds the data to the left subtree when it is less than the current node
       if(num < this.num)
       {
         if(left == null)
@@ -31,6 +41,8 @@ public class TreeSort
           left.addNode(num);
         }
       }
+
+      //Adds the data to the right subtree when it is greater than the current node
       if(num >= this.num)
       {
         if(right == null)
@@ -47,38 +59,45 @@ public class TreeSort
 
   public static void add(int num)
   {
+    //If the root is null, it creates a new root
     if(root == null)
     {
       root = new Node(num);
     }
+    //Otherwise, call the addNode function
     else
     {
       root.addNode(num);
     }
   }
 
-  public static void treeSort(int[] list)
+  public static void treeSort(int[] arr)
   {
-
-    for(int i = 0; i < list.length; i++)
+    //Adds each element in the array to the binary tree
+    for(int i = 0; i < arr.length; i++)
     {
-      add(list[i]);
+      add(arr[i]);
     }
 
+    //Performs an in-order traversal
     traverse(root);
 
-    for(int i = 0; i < list.length; i++)
+    //Adds each item back into array
+    for(int i = 0; i < arr.length; i++)
     {
-      list[i] = sorted.get(i);
+      arr[i] = sorted.get(i);
     }
   }
 
   private static void traverse(Node node)
   {
+    //If the node is null, it must be a leaf
     if(node == null)
     {
       return;
     }
+    //Traverses the left node, then adds the data to the sorted arr, then
+    //traveres the right node
     traverse(node.left);
     sorted.add(node.num);
     traverse(node.right);
