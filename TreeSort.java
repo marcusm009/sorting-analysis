@@ -20,41 +20,12 @@ public class TreeSort
     Node left;
     Node right;
 
-    //Constructor
+    //Constructor that initializes values
     private Node(int num)
     {
       this.num = num;
       this.left = null;
       this.right = null;
-    }
-
-    private void addNode(int num)
-    {
-      //Adds the data to the left subtree when it is less than the current node
-      if(num < this.num)
-      {
-        if(left == null)
-        {
-          left = new Node(num);
-        }
-        else
-        {
-          left.addNode(num);
-        }
-      }
-
-      //Adds the data to the right subtree when it is greater than the current node
-      if(num >= this.num)
-      {
-        if(right == null)
-        {
-          right = new Node(num);
-        }
-        else
-        {
-          right.addNode(num);
-        }
-      }
     }
   }
 
@@ -72,9 +43,9 @@ public class TreeSort
     //Adds each item back into array
     for(int i = 0; i < arr.length; i++)
     {
-      //arr[i] = sorted.get(i);
+      arr[i] = sorted.get(i);
     }
-    //clear();
+    clear();
   }
 
   //Clears the TreeSort object for subsequent use
@@ -90,25 +61,78 @@ public class TreeSort
     if(root == null)
     {
       root = new Node(num);
+      return;
     }
-    //Otherwise, call the addNode function
-    else
+
+    //Initializes curNode to root
+    Node curNode = root;
+    //Iterates through tree until it finds a leaf and adds a new node to
+    //the appropriate spot
+    while(true)
     {
-      root.addNode(num);
+      if(num < curNode.num)
+      {
+        if(curNode.left == null)
+        {
+          curNode.left = new Node(num);
+          return;
+        }
+        else
+        {
+          curNode = curNode.left;
+        }
+      }
+      else
+      {
+        if(curNode.right == null)
+        {
+          curNode.right = new Node(num);
+          return;
+        }
+        else
+        {
+          curNode = curNode.right;
+        }
+      }
     }
   }
 
   private static void traverse(Node node)
   {
-    //If the node is null, it must be a leaf
+    //If the node is null, there is nothing to traverse
     if(node == null)
     {
       return;
     }
-    //Traverses the left node, then adds the data to the sorted arr, then
-    //traveres the right node
-    traverse(node.left);
-    sorted.add(node.num);
-    traverse(node.right);
+
+    //Creates a stack in order to avoid StackOverflow exception in the case of
+    //deep recursion caused by an uneven tree
+    Stack<Node> stack = new Stack<Node>();
+    Node curNode = node;
+
+    //Iterates down the left subtree to get initial stack
+    while(curNode != null)
+    {
+      stack.push(curNode);
+      curNode = curNode.left;
+    }
+
+    //While the stack is greater than zero, it pops the last element off the
+    //stack, adds it to the sorted list, then traverses down its right subtree
+    while(stack.size() > 0)
+    {
+      curNode = stack.pop();
+      sorted.add(curNode.num);
+      if(curNode.right != null)
+      {
+        curNode = curNode.right;
+
+        while(curNode != null)
+        {
+          stack.push(curNode);
+          curNode = curNode.left;
+        }
+      }
+    }
   }
 }

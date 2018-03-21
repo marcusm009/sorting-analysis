@@ -12,7 +12,7 @@ class SortingAnalysis
   public static void main(String[] args)
   {
     //Initializes size
-    int size = 5000;
+    int size = 50000;
 
     //Creates randomly ordered arrays
     int[] arr1 = fileToArray(size, "");
@@ -26,25 +26,23 @@ class SortingAnalysis
     int[] arr1_dsc = fileToArray(size, "_dsc");
     int[] arr2_dsc = fileToArray(size, "_dsc");
 
-/*
     //Sorts and measures the sorting methods on randomly ordered arrays
     System.out.println("Random:");
     test(arr1, true);
     test(arr2, false);
     System.out.println();
-*/
+
     //Sorts and measures the sorting methods on ascending ordered arrays
     System.out.println("Ascending:");
     test(arr1_asc, true);
     test(arr2_asc, false);
     System.out.println();
-/*
+
     //Sorts and measures the sorting methods on descending ordered arrays
     System.out.println("Descending:");
     test(arr1_dsc, true);
     test(arr2_dsc, false);
     System.out.println();
-    */
   }
 
   public static void test(int[] arr, boolean tree)

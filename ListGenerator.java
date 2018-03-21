@@ -17,7 +17,6 @@ class ListGenerator
     generate(10000);
     generate(20000);
     generate(50000);
-    generate(500000);
   }
 
   public static void generate(int size)
